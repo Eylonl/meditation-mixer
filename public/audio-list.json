@@ -1,0 +1,90 @@
+{
+  "music": [],
+  "binaural": [
+    {
+      "id": "01 - Beta 20.mp3",
+      "name": "01 - Beta 20",
+      "file_url": "/audio/binaural/01%20-%20Beta%2020.mp3"
+    },
+    {
+      "id": "03 - Beta 25.mp3",
+      "name": "03 - Beta 25",
+      "file_url": "/audio/binaural/03%20-%20Beta%2025.mp3"
+    },
+    {
+      "id": "04 - Beta 30.mp3",
+      "name": "04 - Beta 30",
+      "file_url": "/audio/binaural/04%20-%20Beta%2030.mp3"
+    },
+    {
+      "id": "05 - Super Beta 15.mp3",
+      "name": "05 - Super Beta 15",
+      "file_url": "/audio/binaural/05%20-%20Super%20Beta%2015.mp3"
+    },
+    {
+      "id": "07 - Alpha Relax 20.mp3",
+      "name": "07 - Alpha Relax 20",
+      "file_url": "/audio/binaural/07%20-%20Alpha%20Relax%2020.mp3"
+    },
+    {
+      "id": "09 - Alpha Relax 25.mp3",
+      "name": "09 - Alpha Relax 25",
+      "file_url": "/audio/binaural/09%20-%20Alpha%20Relax%2025.mp3"
+    },
+    {
+      "id": "10 - Alpha Relax 30.mp3",
+      "name": "10 - Alpha Relax 30",
+      "file_url": "/audio/binaural/10%20-%20Alpha%20Relax%2030.mp3"
+    },
+    {
+      "id": "11 - Alpha 20.mp3",
+      "name": "11 - Alpha 20",
+      "file_url": "/audio/binaural/11%20-%20Alpha%2020.mp3"
+    },
+    {
+      "id": "12 - Alpha 25.mp3",
+      "name": "12 - Alpha 25",
+      "file_url": "/audio/binaural/12%20-%20Alpha%2025.mp3"
+    },
+    {
+      "id": "14 - Alpha 30.mp3",
+      "name": "14 - Alpha 30",
+      "file_url": "/audio/binaural/14%20-%20Alpha%2030.mp3"
+    },
+    {
+      "id": "15 - Alpha 40.mp3",
+      "name": "15 - Alpha 40",
+      "file_url": "/audio/binaural/15%20-%20Alpha%2040.mp3"
+    },
+    {
+      "id": "16 - Theta 30.mp3",
+      "name": "16 - Theta 30",
+      "file_url": "/audio/binaural/16%20-%20Theta%2030.mp3"
+    },
+    {
+      "id": "18 - Theta 22.mp3",
+      "name": "18 - Theta 22",
+      "file_url": "/audio/binaural/18%20-%20Theta%2022.mp3"
+    },
+    {
+      "id": "19 - Delta 15.mp3",
+      "name": "19 - Delta 15",
+      "file_url": "/audio/binaural/19%20-%20Delta%2015.mp3"
+    },
+    {
+      "id": "20 - Delta 20.mp3",
+      "name": "20 - Delta 20",
+      "file_url": "/audio/binaural/20%20-%20Delta%2020.mp3"
+    },
+    {
+      "id": "21 - Delta 25.mp3",
+      "name": "21 - Delta 25",
+      "file_url": "/audio/binaural/21%20-%20Delta%2025.mp3"
+    },
+    {
+      "id": "22 - Entertainment Program 25.mp3",
+      "name": "22 - Entertainment Program 25",
+      "file_url": "/audio/binaural/22%20-%20Entertainment%20Program%2025.mp3"
+    }
+  ]
+}

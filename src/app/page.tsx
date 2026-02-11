@@ -28,23 +28,19 @@ export default function MeditationMixer() {
         setIsLoading(true);
         setError('');
         
-        const [musicRes, binauralRes] = await Promise.all([
-          fetch('/api/audio?type=music'),
-          fetch('/api/audio?type=binaural')
-        ]);
+        const response = await fetch('/audio-list.json');
         
-        if (!musicRes.ok || !binauralRes.ok) {
+        if (!response.ok) {
           throw new Error('Failed to load audio tracks');
         }
         
-        const music = await musicRes.json();
-        const binaural = await binauralRes.json();
+        const data = await response.json();
         
-        if (Array.isArray(music)) setMusicTracks(music);
-        if (Array.isArray(binaural)) setBinauralTracks(binaural);
+        if (Array.isArray(data.music)) setMusicTracks(data.music);
+        if (Array.isArray(data.binaural)) setBinauralTracks(data.binaural);
         
-        if (music.length > 0) setSelectedMusic(music[0].id);
-        if (binaural.length > 0) setSelectedBinaural(binaural[0].id);
+        if (data.music.length > 0) setSelectedMusic(data.music[0].id);
+        if (data.binaural.length > 0) setSelectedBinaural(data.binaural[0].id);
       } catch (err) {
         console.error('Error loading tracks:', err);
         setError('Failed to load audio tracks. Please refresh the page.');
