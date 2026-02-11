@@ -65,30 +65,32 @@ export default function MeditationMixer() {
   }, [binauralVolume]);
 
   const togglePlayback = async () => {
-    if (!selectedMusicTrack || !selectedBinauralTrack) {
-      setError('Please select both a music track and a binaural beat');
+    if (!selectedMusicTrack && !selectedBinauralTrack) {
+      setError('Please select at least one audio track');
       return;
     }
 
-    if (musicRef.current && binauralRef.current) {
-      try {
-        if (isPlaying) {
-          musicRef.current.pause();
-          binauralRef.current.pause();
-          setIsPlaying(false);
-        } else {
-          await Promise.all([
-            musicRef.current.play(),
-            binauralRef.current.play()
-          ]);
-          setIsPlaying(true);
-          setError('');
-        }
-      } catch (err) {
-        console.error('Playback error:', err);
-        setError('Failed to play audio. Please try again.');
+    try {
+      if (isPlaying) {
+        if (musicRef.current) musicRef.current.pause();
+        if (binauralRef.current) binauralRef.current.pause();
         setIsPlaying(false);
+      } else {
+        const playPromises = [];
+        if (musicRef.current && selectedMusicTrack) {
+          playPromises.push(musicRef.current.play());
+        }
+        if (binauralRef.current && selectedBinauralTrack) {
+          playPromises.push(binauralRef.current.play());
+        }
+        await Promise.all(playPromises);
+        setIsPlaying(true);
+        setError('');
       }
+    } catch (err) {
+      console.error('Playback error:', err);
+      setError('Failed to play audio. Please try again.');
+      setIsPlaying(false);
     }
   };
 
@@ -203,9 +205,9 @@ export default function MeditationMixer() {
             <div className="flex justify-center">
               <button
                 onClick={togglePlayback}
-                disabled={musicTracks.length === 0 || binauralTracks.length === 0}
+                disabled={musicTracks.length === 0 && binauralTracks.length === 0}
                 className={`px-6 py-3 rounded-full text-white font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 ${
-                  musicTracks.length === 0 || binauralTracks.length === 0
+                  musicTracks.length === 0 && binauralTracks.length === 0
                     ? 'bg-gray-400 cursor-not-allowed'
                     : isPlaying
                     ? 'bg-red-500 hover:bg-red-600'
