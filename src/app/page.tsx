@@ -127,6 +127,24 @@ export default function MeditationMixer() {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
+  const handleMusicSeek = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!musicRef.current || !musicDuration) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const percentage = clickX / rect.width;
+    const newTime = percentage * musicDuration;
+    musicRef.current.currentTime = newTime;
+  };
+
+  const handleBinauralSeek = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!binauralRef.current || !binauralDuration) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const percentage = clickX / rect.width;
+    const newTime = percentage * binauralDuration;
+    binauralRef.current.currentTime = newTime;
+  };
+
   const togglePlayback = async () => {
     if (!selectedMusicTrack && !selectedBinauralTrack) {
       setError('Please select at least one audio track');
@@ -230,9 +248,12 @@ export default function MeditationMixer() {
                     <span>{formatTime(musicCurrentTime)}</span>
                     <span>{formatTime(musicDuration)}</span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div 
+                    className="w-full bg-gray-200 rounded-full h-2 cursor-pointer hover:bg-gray-300 transition-colors"
+                    onClick={handleMusicSeek}
+                  >
                     <div
-                      className="bg-blue-500 h-2 rounded-full transition-all duration-300"
+                      className="bg-blue-500 h-2 rounded-full transition-all duration-300 pointer-events-none"
                       style={{ width: `${musicProgress}%` }}
                     ></div>
                   </div>
@@ -284,9 +305,12 @@ export default function MeditationMixer() {
                     <span>{formatTime(binauralCurrentTime)}</span>
                     <span>{formatTime(binauralDuration)}</span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div 
+                    className="w-full bg-gray-200 rounded-full h-2 cursor-pointer hover:bg-gray-300 transition-colors"
+                    onClick={handleBinauralSeek}
+                  >
                     <div
-                      className="bg-purple-500 h-2 rounded-full transition-all duration-300"
+                      className="bg-purple-500 h-2 rounded-full transition-all duration-300 pointer-events-none"
                       style={{ width: `${binauralProgress}%` }}
                     ></div>
                   </div>
