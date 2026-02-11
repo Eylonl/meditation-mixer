@@ -18,6 +18,12 @@ export default function MeditationMixer() {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
+  const [musicProgress, setMusicProgress] = useState<number>(0);
+  const [binauralProgress, setBinauralProgress] = useState<number>(0);
+  const [musicCurrentTime, setMusicCurrentTime] = useState<number>(0);
+  const [binauralCurrentTime, setBinauralCurrentTime] = useState<number>(0);
+  const [musicDuration, setMusicDuration] = useState<number>(0);
+  const [binauralDuration, setBinauralDuration] = useState<number>(0);
   
   const musicRef = useRef<HTMLAudioElement>(null);
   const binauralRef = useRef<HTMLAudioElement>(null);
@@ -63,6 +69,63 @@ export default function MeditationMixer() {
       binauralRef.current.volume = binauralVolume / 100;
     }
   }, [binauralVolume]);
+
+  useEffect(() => {
+    const musicAudio = musicRef.current;
+    const binauralAudio = binauralRef.current;
+
+    const updateMusicProgress = () => {
+      if (musicAudio) {
+        const progress = (musicAudio.currentTime / musicAudio.duration) * 100;
+        setMusicProgress(progress || 0);
+        setMusicCurrentTime(musicAudio.currentTime);
+      }
+    };
+
+    const updateBinauralProgress = () => {
+      if (binauralAudio) {
+        const progress = (binauralAudio.currentTime / binauralAudio.duration) * 100;
+        setBinauralProgress(progress || 0);
+        setBinauralCurrentTime(binauralAudio.currentTime);
+      }
+    };
+
+    const setMusicDurationHandler = () => {
+      if (musicAudio) setMusicDuration(musicAudio.duration);
+    };
+
+    const setBinauralDurationHandler = () => {
+      if (binauralAudio) setBinauralDuration(binauralAudio.duration);
+    };
+
+    if (musicAudio) {
+      musicAudio.addEventListener('timeupdate', updateMusicProgress);
+      musicAudio.addEventListener('loadedmetadata', setMusicDurationHandler);
+    }
+
+    if (binauralAudio) {
+      binauralAudio.addEventListener('timeupdate', updateBinauralProgress);
+      binauralAudio.addEventListener('loadedmetadata', setBinauralDurationHandler);
+    }
+
+    return () => {
+      if (musicAudio) {
+        musicAudio.removeEventListener('timeupdate', updateMusicProgress);
+        musicAudio.removeEventListener('loadedmetadata', setMusicDurationHandler);
+      }
+      if (binauralAudio) {
+        binauralAudio.removeEventListener('timeupdate', updateBinauralProgress);
+        binauralAudio.removeEventListener('loadedmetadata', setBinauralDurationHandler);
+      }
+    };
+  }, [selectedMusic, selectedBinaural]);
+
+  const formatTime = (seconds: number) => {
+    if (!seconds || isNaN(seconds)) return '0:00';
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
 
   const togglePlayback = async () => {
     if (!selectedMusicTrack && !selectedBinauralTrack) {
@@ -160,6 +223,21 @@ export default function MeditationMixer() {
                   />
                 </div>
               </div>
+              
+              {selectedMusicTrack && (
+                <div className="mt-3">
+                  <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
+                    <span>{formatTime(musicCurrentTime)}</span>
+                    <span>{formatTime(musicDuration)}</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div
+                      className="bg-blue-500 h-2 rounded-full transition-all duration-300"
+                      style={{ width: `${musicProgress}%` }}
+                    ></div>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Binaural Beat Selector */}
@@ -199,6 +277,21 @@ export default function MeditationMixer() {
                   />
                 </div>
               </div>
+              
+              {selectedBinauralTrack && (
+                <div className="mt-3">
+                  <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
+                    <span>{formatTime(binauralCurrentTime)}</span>
+                    <span>{formatTime(binauralDuration)}</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div
+                      className="bg-purple-500 h-2 rounded-full transition-all duration-300"
+                      style={{ width: `${binauralProgress}%` }}
+                    ></div>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Playback Controls */}
